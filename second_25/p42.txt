@@ -1,0 +1,13 @@
+WITH "d" AS (
+    SELECT "lat" , "lon" , COUNT(*) AS "cntCity"
+   FROM "Insurance"
+   GROUP BY "lat" , "lon" 
+) , "e" AS (
+    SELECT "tiv_2015" , COUNT("tiv_2015") AS "cntTiv"
+    FROM "Insurance"
+    GROUP BY "tiv_2015"
+)
+SELECT ROUND(SUM("tiv_2016" * 1.0),2) AS "tiv_2016"
+FROM "Insurance" AS "i" JOIN "d"
+ON "i"."lat" = "d"."lat" AND "i"."lon" = "d"."lon" JOIN "e" ON "i"."tiv_2015" = "e"."tiv_2015"
+WHERE "cntCity" = 1 AND "cntTiv" > 1

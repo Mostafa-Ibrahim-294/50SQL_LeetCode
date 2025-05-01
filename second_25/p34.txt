@@ -1,0 +1,16 @@
+WITH "c" AS (
+SELECT "product_id" , "new_price" AS "price" , LAG("new_price")OVER(PARTITION BY "product_id" ORDER BY "change_date" DESC) AS "prev"
+FROM "Products"
+WHERE "change_date" <= '2019-08-16' 
+) , "d" AS (
+    SELECT "product_id" , 10 AS "price"
+    FROM "Products"
+    WHERE "product_id" NOT IN (SELECT "product_id" FROM "c") 
+) , "e" AS (
+    SELECT "product_id" , "price"
+    FROM "c"
+    WHERE "prev" IS NULL 
+)
+ SELECT * FROM "e"
+ UNION
+ SELECT * FROM "d";

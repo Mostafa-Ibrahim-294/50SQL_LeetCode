@@ -1,0 +1,13 @@
+WITH "c" AS (
+ SELECT "accepter_id" AS "id" , COUNT("accepter_id") AS "total"
+ FROM "RequestAccepted"
+ GROUP BY "accepter_id" 
+ UNION ALL
+ SELECT "requester_id" AS "id" , COUNT("requester_id") AS "total"
+ FROM "RequestAccepted"
+ GROUP BY "requester_id"
+)
+SELECT TOP(1) WITH TIES "id" , SUM("total") AS "num"
+FROM "c"
+GROUP BY "id"
+ORDER BY "num" DESC;

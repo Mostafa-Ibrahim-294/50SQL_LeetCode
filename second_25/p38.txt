@@ -1,0 +1,6 @@
+WITH "c" AS (
+    SELECT "id" , "student" , LAG("student") OVER(ORDER BY "id") AS "prev" , ISNULL(LEAD("student") OVER(ORDER BY "id") ,"student")
+     AS "next"
+    FROM "Seat"
+) SELECT "id" , IIF(id % 2 = 0 , "prev" , "next") AS "student"
+FROM "c" ;

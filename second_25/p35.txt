@@ -1,0 +1,8 @@
+WITH "c" AS (
+   SELECT "person_name"  , SUM("weight") OVER(ORDER BY "turn") AS "total_weight"
+   FROM "Queue"
+   )
+    SELECT TOP(1) "person_name" 
+   FROM "c"
+WHERE "total_weight" <= 1000 
+   ORDER BY "total_weight" DESC ;

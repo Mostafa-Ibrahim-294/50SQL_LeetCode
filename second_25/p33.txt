@@ -1,0 +1,6 @@
+WITH "c" AS (
+ SELECT "num" ,LAG("num") OVER(ORDER BY "id" , "num") AS "prev" , LEAD("num") OVER(ORDER BY "id" , "num") AS "next"
+ FROM "Logs"
+) SELECT DISTINCT "num" AS "ConsecutiveNums"
+FROM "c"
+WHERE "num" = "prev" AND  "num" = "next"  ;

@@ -1,0 +1,12 @@
+WITH c AS (
+    SELECT  "player_id" , "event_date" , LAG("event_date") OVER(PARTITION BY "player_id"  ORDER BY "event_date") AS "prev" 
+        FROM "Activity"
+) , d AS (
+    SELECT "player_id" , MIN("event_date") AS "minimum"
+    FROM "Activity"
+    GROUP BY "player_id" 
+)
+SELECT ROUND(SUM (CASE WHEN "prev" = "minimum" AND  DATEDIFF(DAY , "prev" , "event_date") = 1 THEN 1 ELSE 0 END) * 1.0
+/ COUNT(DISTINCT "c"."player_id"),2) 
+AS "fraction" FROM "c" JOIN "d"
+ON "c"."player_id" = "d"."player_id" ;

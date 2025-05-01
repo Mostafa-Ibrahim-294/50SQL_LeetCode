@@ -1,0 +1,3 @@
+SELECT "patient_id" , "patient_name" , "conditions"
+FROM "Patients"
+WHERE CHARINDEX(' DIAB1', "conditions") != 0 OR SUBSTRING("conditions" , 1 , 5) = 'DIAB1'

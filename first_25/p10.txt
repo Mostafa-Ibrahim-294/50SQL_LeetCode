@@ -1,0 +1,8 @@
+SELECT "machine_id" , ROUND(AVG("time") , 3) AS "processing_time"  FROM
+(SELECT "machine_id" , ("timestamp" - "prev") AS "time" FROM 
+(SELECT "machine_id" , LAG("timestamp") OVER (ORDER BY "machine_id" , "process_id" , "activity_type" DESC) AS "prev"
+ , "activity_type" , "timestamp" 
+ FROM "Activity")
+AS "temp"
+WHERE "activity_type" ='end' ) AS "res"
+GROUP BY "machine_id" ;

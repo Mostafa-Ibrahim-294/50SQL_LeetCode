@@ -1,0 +1,7 @@
+WITH c AS (
+SELECT "num" , COUNT("num") AS "cnt"
+FROM "MyNumbers"
+GROUP BY "num" 
+) SELECT MAX("num") AS "num"
+FROM "c"
+WHERE "cnt" = 1 ;

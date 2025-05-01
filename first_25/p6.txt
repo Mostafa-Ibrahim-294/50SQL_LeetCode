@@ -1,0 +1,2 @@
+SELECT "unique_id" , "name" FROM "EmployeeUNI" AS "U" RIGHT JOIN "Employees" AS "E"
+ON "U"."id" = "E"."id" ;

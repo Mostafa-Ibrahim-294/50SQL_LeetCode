@@ -1,0 +1,12 @@
+WITH "a" AS (
+    SELECT "visited_on" , SUM("amount") AS "amount" , AVG("amount" * 1.0) AS "average"
+    FROM "customer"
+    GROUP BY "visited_on" 
+)
+, "c" AS (
+SELECT "visited_on" , SUM("amount")OVER (ORDER BY "visited_on" ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS "amount" ,
+ROUND(AVG("amount" * 1.0)OVER (ORDER BY "visited_on" ROWS BETWEEN 6 PRECEDING AND CURRENT ROW),2) AS "average_amount"
+FROM "a"
+) SELECT "visited_on" , "amount" , "average_amount"
+  FROM "c"
+  WHERE DATEDIFF(DAY , (SELECT MIN("visited_on") FROM "c") , "visited_on") >= 6 ;

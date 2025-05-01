@@ -1,0 +1,7 @@
+WITH "c" AS (
+SELECT "employee_id" , "department_id" ,
+LAG("primary_flag") OVER (PARTITION BY "employee_id" ORDER BY "primary_flag" DESC) AS "prev"
+FROM "Employee"
+) SELECT "employee_id" , "department_id"
+FROM "c"
+WHERE "prev" IS NULL ;

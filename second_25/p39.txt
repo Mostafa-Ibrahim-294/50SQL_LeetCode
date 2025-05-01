@@ -1,0 +1,17 @@
+WITH "c" AS (
+SELECT TOP(1) "name" , COUNT("name") AS "total"
+FROM "Users" AS "u" JOIN "MovieRating" AS "m"
+ON "u"."user_id" = "m"."user_id"
+GROUP BY "name" 
+ORDER BY "total" DESC , "name" 
+) , "d" AS (
+    SELECT TOP(1) "title" ,  AVG("rating" * 1.0) AS "average" 
+    FROM "Movies" AS "o" JOIN "MovieRating" AS "m"
+    ON "o"."movie_id" = "m"."movie_id"
+    WHERE "created_at" BETWEEN '2020-02-01' AND '2020-02-28'
+    GROUP BY "title"
+    ORDER BY "average" DESC , "title"
+)
+SELECT "name" AS "results" FROM "c"
+UNION ALL
+SELECT "title" AS "results" FROM "d" ;

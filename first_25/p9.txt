@@ -1,0 +1,4 @@
+SELECT "id" FROM (SELECT "id" , LAG("temperature") OVER (ORDER BY "recordDate") AS "prev_tem" ,
+ LAG("recordDate") OVER (ORDER BY "recordDate") AS "prev_date","temperature" , "recordDate" FROM "Weather") 
+AS "temp"
+WHERE "temperature" > "prev_tem" AND DATEDIFF(DAY , "prev_date" , "recordDate" ) = 1;
